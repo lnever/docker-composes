@@ -1,0 +1,12 @@
+elk:
+  image: sebp/elk:564
+  ports:
+    - "5601:5601"
+    - "9200:9200"
+    - "5044:5044"
+    - "5045:5045/udp"
+  volumes:
+    - "./logstash.conf:/etc/logstash/conf.d/logstash.conf"
+  expose:
+    - 5045/udp
+  container_name: elk

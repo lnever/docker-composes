@@ -1,0 +1,29 @@
+version: "2"
+services:
+  jobmanager:
+    build: image
+    expose:
+      - "6123"
+    ports:
+      - "6123:6123"
+      - "8081:8081"
+      - "9000:9000"
+    command: jobmanager
+    volumes:
+      - ./tasks:/opt/flink/tasks
+    environment:
+      - JOB_MANAGER_RPC_ADDRESS=jobmanager
+    container_name: flink
+
+  taskmanager:
+    build: image
+    expose:
+      - "6121"
+      - "6122"
+    depends_on:
+      - jobmanager
+    command: taskmanager
+    links:
+      - "jobmanager:jobmanager"
+    environment:
+      - JOB_MANAGER_RPC_ADDRESS=jobmanager

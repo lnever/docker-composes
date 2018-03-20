@@ -1,0 +1,7 @@
+version: "2"
+services:
+  ubuntu:
+    ports:
+      - "22:2222"
+    image: ubuntu:12.04
+    container_name: ubuntu12.04

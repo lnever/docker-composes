@@ -1,0 +1,18 @@
+var data = stream
+    |from()
+        .measurement('disk')
+        .groupBy('host', 'path')
+data
+    |derivative('used_percent')
+        .unit(10s)
+        .as('growth')
+    |window()
+        .period(1m)
+        .every(30s)
+    |percentile('growth', 50.0)
+        .as('_growth')
+    |alert()
+        .crit(lambda: "_growth" >= 1)
+        .message('disk usage of {{ index .Tags "host" }}:{{ index .Tags "path" }} is growing fast, d = {{ index .Fields "_growth" }}')
+        .details('{{ .Message }}')
+        .log('/tmp/disk.log')

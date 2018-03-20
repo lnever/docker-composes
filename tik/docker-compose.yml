@@ -1,0 +1,43 @@
+version: '2'
+services:
+  telegraf:
+    image: telegraf:0.13
+    volumes:
+      - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - ~/tmp_file:/tmp_file
+#      - /:/hostfs:ro
+#    environment:
+#      - HOST_MOUNT_PREFIX=/hostfs/Users
+#      - HOST_ETC=/hostfs/etc
+    ports:
+      - "8092:8092"
+    container_name: telegraf
+#    networks:
+#      - influxdb
+    links:
+      - influxdb
+    depends_on:
+      - influxdb
+
+  kapacitor:
+    image: kapacitor:0.13
+    ports:
+      - "9093:9092"
+    container_name: kapacitor
+    command: kapacitord -config /kapacitor.conf
+    volumes:
+      - ./kapacitor.conf:/kapacitor.conf:ro
+      - ./scripts:/scripts
+#    environment:
+#      - KAPACITOR_INFLUXDB_0_URLS_0=http://influxdb:8086
+    depends_on:
+      - influxdb
+
+  influxdb:
+    image: influxdb:0.13
+#    networks:
+#      - influxdb
+    ports:
+      - "8083:8083"
+      - "8086:8086"
+    container_name: influxdb
