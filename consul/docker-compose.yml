@@ -1,0 +1,10 @@
+version: '2'
+services:
+  consul:
+    image: consul
+    ports:
+      - "8500:8500" # http
+#      - "8600:8600/udp" # rpc
+    environment:
+      CONSUL_BIND_INTERFACE: eth0
+    container_name: consul
