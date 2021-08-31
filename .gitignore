@@ -1,3 +1,5 @@
+.DS_Store
+.idea/*
 flink/tasks/*
 jenkins/jenkins_home/*
 neo4j/data/*

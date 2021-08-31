@@ -1,5 +1,5 @@
 elk:
-  image: sebp/elk:564
+  image: sebp/elk:671
   ports:
     - "5601:5601"
     - "9200:9200"
